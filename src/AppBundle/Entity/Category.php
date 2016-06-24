@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
@@ -95,5 +96,9 @@ class Category
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    public function __toString() {
+        return $this->name;
     }
 }

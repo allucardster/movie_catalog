@@ -32,15 +32,61 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="{{ path('fos_user_security_login') }}">Login</a>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li {% if app.request.attributes.get('_route') == 'admin_dashboard' %}class="active"{% endif %}>
+                            <a href="{{ path('admin_dashboard') }}">
+                                Admin
+                            </a>
                         </li>
+                        {% endif %}
+                        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-user"></i> {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ path('fos_user_profile_edit') }}">
+                                        {{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('fos_user_change_password') }}">
+                                        {{ 'change_password.submit'|trans({}, 'FOSUserBundle') }}
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a href="{{ path('fos_user_security_logout') }}">
+                                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li {% if app.request.attributes.get('_route') == 'fos_user_security_login' %}class="active"{% endif %}>
+                            <a href="{{ path('fos_user_security_login') }}">
+                                {{ 'layout.login'|trans({}, 'FOSUserBundle') }}
+                            </a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
         <div class="container theme-showcase" role="main">
             {% block breadcrumb %}
+            <ol class="breadcrumb">
+                {% if app.request.attributes.get('_route') == 'homepage' %}
+                    <li class="active">Home</li>
+                {% else %}
+                    <li><a href="{{ path('homepage') }}">Home</a></li>
+                    <li class="active">
+                        {% block current_breadcrumb %}{% endblock %}
+                    </li>
+                {% endif %}
+            </ol>
             {% endblock %}
             {% block body %}{% endblock %}
         </div>

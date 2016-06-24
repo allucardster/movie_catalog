@@ -6,6 +6,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/admin")
+ */
 class AdminController extends Controller
 {
     /**
@@ -13,6 +16,12 @@ class AdminController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('AppBundle:Admin:index.html.twig');
+        $tables = array(
+            array('idx' => 'category', 'label' => 'Category'),
+            array('idx' => 'movie', 'label' => 'Movie')
+        );
+        return $this->render('AppBundle:Admin:index.html.twig', array(
+            'tables' => $tables
+        ));
     }
 }

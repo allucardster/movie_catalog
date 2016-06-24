@@ -1,0 +1,11 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="{{ path('homepage') }}">Home</a></li>
+        <li><a href="{{ path('admin_dashboard') }}">Admin</a></li>
+        <li class="active">
+            {% block current_breadcrumb %}{% endblock %}
+        </li>
+    </ol>
+{% endblock %}
